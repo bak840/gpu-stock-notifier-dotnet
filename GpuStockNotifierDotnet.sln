@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31320.298
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpuStockNotifier.Common", "GpuStockNotifier.Common\GpuStockNotifier.Common.csproj", "{4EE705B7-8FED-4DF4-9717-74B98B7019FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GpuStockNotifier.Server", "GpuStockNotifier.Server\GpuStockNotifier.Server.csproj", "{F3A9E1E9-4746-4AFF-8F12-A9D9AECD4233}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GpuStockNotifier.DesktopWin", "GpuStockNotifier.DesktopWin\GpuStockNotifier.DesktopWin.csproj", "{04536482-FBBE-42C0-8170-78E77D7F3C2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4EE705B7-8FED-4DF4-9717-74B98B7019FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE705B7-8FED-4DF4-9717-74B98B7019FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE705B7-8FED-4DF4-9717-74B98B7019FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE705B7-8FED-4DF4-9717-74B98B7019FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3A9E1E9-4746-4AFF-8F12-A9D9AECD4233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3A9E1E9-4746-4AFF-8F12-A9D9AECD4233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3A9E1E9-4746-4AFF-8F12-A9D9AECD4233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3A9E1E9-4746-4AFF-8F12-A9D9AECD4233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04536482-FBBE-42C0-8170-78E77D7F3C2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04536482-FBBE-42C0-8170-78E77D7F3C2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04536482-FBBE-42C0-8170-78E77D7F3C2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04536482-FBBE-42C0-8170-78E77D7F3C2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40475042-2CFF-47AF-90BE-851CA0711D39}
+	EndGlobalSection
+EndGlobal
