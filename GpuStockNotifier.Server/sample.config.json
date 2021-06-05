@@ -1,0 +1,16 @@
+// rename file to config.json after filling it
+{
+  "email": {
+    "server": "<smtp server address>",
+    "port": "<smtp server port>", //without the ""
+    "user": "<your email address>",
+    "password": "<password of your email account>",
+    "to": "<email address you want to send alerts to>"
+  },
+  "sms": {
+    "twilioAccountId": "<twilio account Id>",
+    "twilioAuthToken": "<twilio auth token>",
+    "from": "<twilio phone number>",
+    "to": "<phone number you want to send alerts to>"
+  }
+}

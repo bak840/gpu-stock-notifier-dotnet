@@ -11,7 +11,7 @@ namespace GpuStockNotifier.Common
     {
         private readonly Notifier _notifier;
 
-        private readonly List<Gpu> gpus = new();
+        private readonly List<Gpu> gpus;
 
         public App(Notifier notifier)
         {
@@ -49,7 +49,7 @@ namespace GpuStockNotifier.Common
 
                 Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
 
-                if (gpuStatus == "out_of_stock")
+                if (gpuStatus != "out_of_stock")
                 {
                     _notifier.Notify(gpu);
                 }
@@ -81,6 +81,7 @@ namespace GpuStockNotifier.Common
 
             if (gpuStatus == "out_of_stock")
             {
+                Console.WriteLine("Test notifications");
                 _notifier.Notify(gpu);
             }
         }
