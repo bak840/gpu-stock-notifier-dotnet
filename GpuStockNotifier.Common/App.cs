@@ -9,13 +9,15 @@ namespace GpuStockNotifier.Common
 {
     public class App
     {
-        private readonly Notifier _notifier;
+        private readonly Notifier notifier;
 
         private readonly List<Gpu> gpus;
 
+        private const string outOfStockMessage = "out_of_stock";
+
         public App(Notifier notifier)
         {
-            _notifier = notifier;
+            this.notifier = notifier;
 
             var fileName = "gpus.json";
             string jsonGpus = File.ReadAllText(fileName);
@@ -40,18 +42,24 @@ namespace GpuStockNotifier.Common
             while (true)
             {
                 var response = await client.GetAsync(gpu.ApiUrl);
-
-                var body = await response.Content.ReadAsStringAsync();
-
-                var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
-
-                var gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
-
-                Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
-
-                if (gpuStatus != "out_of_stock")
+                if (response.IsSuccessStatusCode)
                 {
-                    _notifier.Notify(gpu);
+                    var body = await response.Content.ReadAsStringAsync();
+
+                    var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
+
+                    var gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
+
+                    Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
+
+                    if (gpuStatus != outOfStockMessage)
+                    {
+                        notifier.Notify(gpu);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Network request to the API failed: {response.StatusCode}");
                 }
 
                 var delay = random.Next(15000, 45000);
@@ -71,19 +79,27 @@ namespace GpuStockNotifier.Common
 
             Console.WriteLine(response.StatusCode);
 
-            var body = await response.Content.ReadAsStringAsync();
-
-            var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
-
-            var gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
-
-            Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
-
-            if (gpuStatus == "out_of_stock")
+            if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Test notifications");
-                _notifier.Notify(gpu);
+                var body = await response.Content.ReadAsStringAsync();
+
+                var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
+
+                var gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
+
+                Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
+
+                if (gpuStatus == outOfStockMessage)
+                {
+                    Console.WriteLine("Test notifications");
+                    notifier.Notify(gpu);
+                }
             }
+            else
+            {
+                Console.WriteLine("Network request to the API failed");
+            }
+
         }
     }
 }
