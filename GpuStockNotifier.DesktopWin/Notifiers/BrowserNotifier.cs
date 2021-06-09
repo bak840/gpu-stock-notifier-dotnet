@@ -24,7 +24,7 @@ namespace GpuStockNotifier.DesktopWin
                 {
                     throw;
                 }
-            }
+            } 
         }
 
         public override void Notify(Gpu gpu)
@@ -32,6 +32,7 @@ namespace GpuStockNotifier.DesktopWin
             base.Notify(gpu);
 
             OpenLinkInBrowser(gpu.StoreUrl);
+            OpenLinkInBrowser(gpu.LdlcUrl);
         }
     }
 }

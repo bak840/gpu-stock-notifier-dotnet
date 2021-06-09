@@ -3,18 +3,28 @@
     "id": "3080",
     "name": "RTX 3080 FE",
     "apiUrl": "https://api.nvidia.partners/edge/product/search?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203080",
-    "storeUrl": "https://shop.nvidia.com/fr-fr/geforce/store/gpu/?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203080"
+    "storeUrl": "https://shop.nvidia.com/fr-fr/geforce/store/gpu/?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203080",
+    "ldlcUrl": "https://www.ldlc.com/fiche/PB74583210.html"
+  },
+  {
+    "id": "3070 Ti",
+    "name": "RTX 3070 Ti FE",
+    "apiUrl": "https://api.nvidia.partners/edge/product/search?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203070%20Ti",
+    "storeUrl": "https://shop.nvidia.com/fr-fr/geforce/store/gpu/?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203070%20Ti",
+    "ldlcUrl": "https://www.ldlc.com/"
   },
   {
     "id": "3070",
     "name": "RTX 3070 FE",
     "apiUrl": "https://api.nvidia.partners/edge/product/search?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203070",
-    "storeUrl": "https://shop.nvidia.com/fr-fr/geforce/store/gpu/?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203070"
+    "storeUrl": "https://shop.nvidia.com/fr-fr/geforce/store/gpu/?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203070",
+    "ldlcUrl": "https://www.ldlc.com/fiche/PB84219657.html"
   },
   {
     "id": "3060Ti",
     "name": "RTX 3060 Ti FE",
     "apiUrl": "https://api.nvidia.partners/edge/product/search?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203060%20Ti",
-    "storeUrl": "https://shop.nvidia.com/fr-fr/geforce/store/gpu/?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203060%20Ti"
+    "storeUrl": "https://shop.nvidia.com/fr-fr/geforce/store/gpu/?page=1&limit=9&locale=fr-fr&category=GPU&gpu=RTX%203060%20Ti",
+    "ldlcUrl": "https://www.ldlc.com/fiche/PB45784578.html"
   }
 ]

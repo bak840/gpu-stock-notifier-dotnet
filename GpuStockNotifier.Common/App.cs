@@ -62,7 +62,7 @@ namespace GpuStockNotifier.Common
                     Console.WriteLine($"Network request to the API failed: {response.StatusCode}");
                 }
 
-                var delay = random.Next(15000, 45000);
+                var delay = random.Next(15000, 30000);
                 await Task.Delay(delay);
             }
         }
