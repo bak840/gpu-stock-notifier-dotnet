@@ -9,7 +9,7 @@ namespace GpuStockNotifier.Server
         {
             var app = new App(new SmsNotifier(new EmailNotifier(new BasicNotifier())));
 
-            await app.Run();
+            await app.RunAll();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace GpuStockNotifier.Common
             return $"{date}: {gpu.Name} status: {status}";
         }
 
-        public async Task Run()
+        public async Task RunOne()
         {
             var gpu = gpus[0];
 
@@ -60,6 +60,48 @@ namespace GpuStockNotifier.Common
                 else
                 {
                     Console.WriteLine($"Network request to the API failed: {response.StatusCode}");
+                }
+
+                var delay = random.Next(15000, 30000);
+                await Task.Delay(delay);
+            }
+        }
+
+        public async Task RunAll()
+        {
+            var client = new HttpClient();
+
+            var random = new Random();
+
+            while (true)
+            {
+                foreach (var gpu in gpus)
+                {
+                    var response = await client.GetAsync(gpu.ApiUrl);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var body = await response.Content.ReadAsStringAsync();
+
+                        var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
+
+                        var gpuStatus = (gpu.Id != "3070Ti")
+                            ? apiResponse.SearchedProducts.FeaturedProduct.PrdStatus
+                            : apiResponse.SearchedProducts.ProductDetails[0].PrdStatus;
+
+                        Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
+
+                        if (gpuStatus != outOfStockMessage)
+                        {
+                            notifier.Notify(gpu);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Network request to the API failed: {response.StatusCode}");
+                    }
+
+                    var interDelay = random.Next(2500, 5000);
+                    await Task.Delay(interDelay);
                 }
 
                 var delay = random.Next(15000, 30000);

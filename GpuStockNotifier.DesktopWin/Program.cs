@@ -9,7 +9,7 @@ namespace GpuStockNotifier.DesktopWin
         {
             var app = new App(new ToastNotifier(new BrowserNotifier(new BasicNotifier())));
 
-            await app.Run();
+            await app.RunOne();
         }
     }
 }
