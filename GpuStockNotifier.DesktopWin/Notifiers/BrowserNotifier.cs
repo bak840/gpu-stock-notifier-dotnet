@@ -31,8 +31,7 @@ namespace GpuStockNotifier.DesktopWin
         {
             base.Notify(gpu);
 
-            OpenLinkInBrowser(gpu.StoreUrl);
-            OpenLinkInBrowser(gpu.LdlcUrl);
+            OpenLinkInBrowser(gpu.ApiUrl);
         }
     }
 }
