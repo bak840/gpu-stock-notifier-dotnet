@@ -16,7 +16,9 @@ namespace GpuStockNotifier.Common
         [JsonPropertyName("storeUrl")]
         public string StoreUrl { get; set; }
 
+        public string LdlcUrl { get; set; } = string.Empty;
+
         public string Subject => $"{Name} AVAILABLE!!!";
-        public string Body => $"{Name} available at {StoreUrl}";
+        public string Body => $"{Name} available at {LdlcUrl}";
     }
 }

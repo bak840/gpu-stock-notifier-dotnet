@@ -50,6 +50,8 @@ namespace GpuStockNotifier.Common
 
                     var gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
 
+                    gpu.LdlcUrl = apiResponse.SearchedProducts.FeaturedProduct.Retailers[0].PurchaseLink;
+
                     Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
 
                     if (gpuStatus != outOfStockMessage)
@@ -87,6 +89,10 @@ namespace GpuStockNotifier.Common
                         var gpuStatus = (gpu.Id != "3070Ti")
                             ? apiResponse.SearchedProducts.FeaturedProduct.PrdStatus
                             : apiResponse.SearchedProducts.ProductDetails[0].PrdStatus;
+
+                        gpu.LdlcUrl = (gpu.Id != "3070Ti")
+                            ? apiResponse.SearchedProducts.FeaturedProduct.Retailers[0].PurchaseLink
+                            : apiResponse.SearchedProducts.ProductDetails[0].Retailers[0].PurchaseLink;
 
                         Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
 
@@ -126,6 +132,8 @@ namespace GpuStockNotifier.Common
                 var body = await response.Content.ReadAsStringAsync();
 
                 var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
+
+                gpu.LdlcUrl = apiResponse.SearchedProducts.FeaturedProduct.Retailers[0].PurchaseLink;
 
                 var gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
 
