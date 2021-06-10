@@ -92,7 +92,7 @@ namespace GpuStockNotifier.Common
 
                         gpu.LdlcUrl = (gpu.Id != "3070Ti")
                             ? apiResponse.SearchedProducts.FeaturedProduct.Retailers[0].PurchaseLink
-                            : apiResponse.SearchedProducts.ProductDetails[0].Retailers[0].PurchaseLink;
+                            : "https://www.ldlc.com/";                              
 
                         Console.WriteLine(GetGpuStatus(gpu, gpuStatus));
 
