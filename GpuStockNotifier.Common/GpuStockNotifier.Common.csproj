@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <None Update="gpus_all.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="gpus.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
