@@ -10,12 +10,16 @@ namespace GpuStockNotifier.Common
     public class App
     {
         private readonly HttpClient client = new HttpClient();
+
+        private readonly Random random = new Random();
         
         private readonly Notifier notifier;
 
         private readonly List<Gpu> gpus;
 
         private const string outOfStockMessage = "out_of_stock";
+
+        private const string ldlcHomeUrl = "https://www.ldlc.com/";
 
         public App(Notifier notifier)
         {
@@ -42,9 +46,21 @@ namespace GpuStockNotifier.Common
 
                 var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
 
-                var gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
+                string gpuStatus;
+                if (gpu.Id != "3070Ti")
+                {
+                    var retailers = apiResponse.SearchedProducts.FeaturedProduct.Retailers;
+                    gpu.LdlcUrl = (retailers.Count != 0) ? retailers[0].PurchaseLink : ldlcHomeUrl;
 
-                gpu.LdlcUrl = apiResponse.SearchedProducts.FeaturedProduct.Retailers[0].PurchaseLink;
+                    gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
+                }
+                else
+                {
+                    var retailers = apiResponse.SearchedProducts.ProductDetails[0].Retailers;
+                    gpu.LdlcUrl = (retailers.Count != 0) ? retailers[0].PurchaseLink: ldlcHomeUrl;
+
+                    gpuStatus = apiResponse.SearchedProducts.ProductDetails[0].PrdStatus;
+                }
 
                 Console.WriteLine(GetStatusMessage(gpu, gpuStatus));
 
@@ -63,8 +79,6 @@ namespace GpuStockNotifier.Common
         {
             var gpu = gpus[0];
 
-            var random = new Random();
-
             while (true)
             {
                 await CheckAndNotify(gpu);
@@ -76,8 +90,6 @@ namespace GpuStockNotifier.Common
 
         public async Task RunAll()
         {
-            var random = new Random();
-
             while (true)
             {
                 foreach (var gpu in gpus)
