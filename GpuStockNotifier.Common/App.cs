@@ -83,7 +83,7 @@ namespace GpuStockNotifier.Common
             {
                 await CheckAndNotify(gpu);
 
-                var delay = random.Next(15000, 30000);
+                var delay = random.Next(6000, 12000);
                 await Task.Delay(delay);
             }
         }
@@ -96,11 +96,11 @@ namespace GpuStockNotifier.Common
                 {
                     await CheckAndNotify(gpu);
 
-                    var interDelay = random.Next(2500, 5000);
+                    var interDelay = random.Next(2500, 3500);
                     await Task.Delay(interDelay);
                 }
 
-                var delay = random.Next(15000, 30000);
+                var delay = random.Next(6000, 12000);
                 await Task.Delay(delay);
             }
         }
