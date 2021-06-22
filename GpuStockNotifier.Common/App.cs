@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -10,12 +8,8 @@ namespace GpuStockNotifier.Common
     public class App
     {
         private readonly HttpClient client = new HttpClient();
-
-        private readonly Random random = new Random();
         
         private readonly Notifier notifier;
-
-        private readonly List<Gpu> gpus;
 
         private const string outOfStockMessage = "out_of_stock";
 
@@ -24,10 +18,6 @@ namespace GpuStockNotifier.Common
         public App(Notifier notifier)
         {
             this.notifier = notifier;
-
-            var fileName = "gpus.json";
-            string jsonGpus = File.ReadAllText(fileName);
-            gpus = JsonSerializer.Deserialize<List<Gpu>>(jsonGpus);
         }
 
         private string GetStatusMessage(Gpu gpu, string status)
@@ -37,7 +27,7 @@ namespace GpuStockNotifier.Common
             return $"{date}: {gpu.Name} status: {status}";
         }
 
-        private async Task CheckAndNotify(Gpu gpu)
+        protected async Task CheckAndNotify(Gpu gpu)
         {
             var response = await client.GetAsync(gpu.ApiUrl);
             if (response.IsSuccessStatusCode)
@@ -75,40 +65,8 @@ namespace GpuStockNotifier.Common
             }
         }
 
-        public async Task RunOne()
+        public static async Task Test(Gpu gpu)
         {
-            var gpu = gpus[0];
-
-            while (true)
-            {
-                await CheckAndNotify(gpu);
-
-                var delay = random.Next(6000, 12000);
-                await Task.Delay(delay);
-            }
-        }
-
-        public async Task RunAll()
-        {
-            while (true)
-            {
-                foreach (var gpu in gpus)
-                {
-                    await CheckAndNotify(gpu);
-
-                    var interDelay = random.Next(2500, 3500);
-                    await Task.Delay(interDelay);
-                }
-
-                var delay = random.Next(6000, 12000);
-                await Task.Delay(delay);
-            }
-        }
-
-        public async Task Test()
-        {
-            var gpu = gpus[0];
-
             Console.WriteLine($"GPU: {gpu.Name}");
 
             var client = new HttpClient();

@@ -13,4 +13,10 @@
     <ProjectReference Include="..\GpuStockNotifier.Common\GpuStockNotifier.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="gpus.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
