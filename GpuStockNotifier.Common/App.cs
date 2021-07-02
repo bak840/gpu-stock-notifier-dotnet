@@ -65,7 +65,7 @@ namespace GpuStockNotifier.Common
             }
         }
 
-        public static async Task Test(Gpu gpu)
+        protected async Task Test(Gpu gpu)
         {
             Console.WriteLine($"GPU: {gpu.Name}");
 
@@ -89,8 +89,8 @@ namespace GpuStockNotifier.Common
 
                 if (gpuStatus == outOfStockMessage)
                 {
-                    var testNotifier = new BasicNotifier();
-                    testNotifier.Notify(gpu);
+                    // var testNotifier = new BasicNotifier();
+                    notifier.Notify(gpu);
                 }
             }
             else

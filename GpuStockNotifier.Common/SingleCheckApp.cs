@@ -30,5 +30,7 @@ namespace GpuStockNotifier.Common
                 await Task.Delay(delay);
             }
         }
+
+        public async Task RunTest() => await Test(gpu);
     }
 }
