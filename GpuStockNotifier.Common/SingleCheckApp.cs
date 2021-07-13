@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace GpuStockNotifier.Common
 {
@@ -7,15 +6,16 @@ namespace GpuStockNotifier.Common
     {
         private readonly Gpu gpu;
 
-        private readonly Random random = new Random();
-
         private readonly int minCheckInterval;
 
         private readonly int maxCheckInterval;
 
+        private string lastLdlcUrl;
+
         public SingleCheckApp(Notifier notifier, Gpu gpu, int minCheckInterval, int maxCheckInterval) : base(notifier)
         {
             this.gpu = gpu;
+            lastLdlcUrl = gpu.LdlcUrl;
             this.minCheckInterval = minCheckInterval;
             this.maxCheckInterval = maxCheckInterval;
         }
@@ -24,7 +24,7 @@ namespace GpuStockNotifier.Common
         {
             while (true)
             {
-                await CheckAndNotify(gpu);
+                lastLdlcUrl = await CheckAndNotify(gpu, lastLdlcUrl);
 
                 var delay = random.Next(minCheckInterval, maxCheckInterval);
                 await Task.Delay(delay);

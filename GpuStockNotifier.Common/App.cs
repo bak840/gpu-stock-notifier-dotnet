@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -7,27 +8,29 @@ namespace GpuStockNotifier.Common
 {
     public class App
     {
-        private readonly HttpClient client = new HttpClient();
+        protected readonly HttpClient client = new HttpClient();
         
-        private readonly Notifier notifier;
+        protected readonly Notifier notifier;
 
-        private const string outOfStockMessage = "out_of_stock";
+        protected readonly Random random = new Random();
 
-        private const string ldlcHomeUrl = "https://www.ldlc.com/";
+        protected const string outOfStockMessage = "out_of_stock";
+
+        protected const string ldlcHomeUrl = "https://www.ldlc.com/";
 
         public App(Notifier notifier)
         {
             this.notifier = notifier;
         }
 
-        private string GetStatusMessage(Gpu gpu, string status)
+        protected string GetStatusMessage(Gpu gpu, string status)
         {
             var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
 
             return $"{date}: {gpu.Name} status: {status}";
         }
 
-        protected async Task CheckAndNotify(Gpu gpu)
+        protected async Task<string> CheckAndNotify(Gpu gpu, string lastLdlcUrl)
         {
             var response = await client.GetAsync(gpu.ApiUrl);
             if (response.IsSuccessStatusCode)
@@ -37,31 +40,34 @@ namespace GpuStockNotifier.Common
                 var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
 
                 string gpuStatus;
+                List<Retailer> retailers;
                 if (gpu.Id != "3070Ti")
                 {
-                    var retailers = apiResponse.SearchedProducts.FeaturedProduct.Retailers;
-                    gpu.LdlcUrl = (retailers.Count != 0) ? retailers[0].PurchaseLink : ldlcHomeUrl;
-
+                    retailers = apiResponse.SearchedProducts.FeaturedProduct.Retailers;
                     gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
                 }
                 else
                 {
-                    var retailers = apiResponse.SearchedProducts.ProductDetails[0].Retailers;
-                    gpu.LdlcUrl = (retailers.Count != 0) ? retailers[0].PurchaseLink: ldlcHomeUrl;
-
+                    retailers = apiResponse.SearchedProducts.ProductDetails[0].Retailers;
                     gpuStatus = apiResponse.SearchedProducts.ProductDetails[0].PrdStatus;
                 }
 
+                gpu.LdlcUrl = (retailers.Count != 0) ? retailers[0].PurchaseLink : ldlcHomeUrl;
+                if (lastLdlcUrl == string.Empty) lastLdlcUrl = gpu.LdlcUrl;
+
                 Console.WriteLine(GetStatusMessage(gpu, gpuStatus));
 
-                if (gpuStatus != outOfStockMessage)
+                if (gpuStatus != outOfStockMessage || gpu.LdlcUrl != lastLdlcUrl)
                 {
                     notifier.Notify(gpu);
                 }
+
+                return gpu.LdlcUrl;
             }
             else
             {
                 Console.WriteLine($"Network request to the API failed: {response.StatusCode}");
+                return lastLdlcUrl;
             }
         }
 
@@ -89,8 +95,8 @@ namespace GpuStockNotifier.Common
 
                 if (gpuStatus == outOfStockMessage)
                 {
-                    // var testNotifier = new BasicNotifier();
-                    notifier.Notify(gpu);
+                    var testNotifier = new BasicNotifier();
+                    // notifier.Notify(gpu);
                 }
             }
             else

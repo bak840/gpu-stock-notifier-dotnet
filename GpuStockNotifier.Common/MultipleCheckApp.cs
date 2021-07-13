@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GpuStockNotifier.Common
@@ -8,15 +8,16 @@ namespace GpuStockNotifier.Common
     {
         private readonly List<Gpu> gpus;
 
-        private readonly Random random = new Random();
-
         private readonly int minCheckInterval;
 
         private readonly int maxCheckInterval;
 
+        private string[] lastLdlcUrls;
+
         public MultipleCheckApp(Notifier notifier, List<Gpu> gpus, int minCheckInterval, int maxCheckInterval) : base(notifier)
         {
             this.gpus = gpus;
+            lastLdlcUrls = gpus.Select(gpu => gpu.LdlcUrl).ToArray();
             this.minCheckInterval = minCheckInterval;
             this.maxCheckInterval = maxCheckInterval;
         }
@@ -25,9 +26,9 @@ namespace GpuStockNotifier.Common
         {
             while (true)
             {
-                foreach (var gpu in gpus)
+                for(int i = 0; i < gpus.Count; i++)
                 {
-                    await CheckAndNotify(gpu);
+                    lastLdlcUrls[i] = await CheckAndNotify(gpus[i], lastLdlcUrls[i]);
 
                     var interDelay = random.Next(2500, 3500);
                     await Task.Delay(interDelay);
