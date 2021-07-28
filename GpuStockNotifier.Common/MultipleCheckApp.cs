@@ -30,7 +30,7 @@ namespace GpuStockNotifier.Common
                 {
                     lastLdlcUrls[i] = await CheckAndNotify(gpus[i], lastLdlcUrls[i]);
 
-                    var interDelay = random.Next(2500, 3500);
+                    var interDelay = random.Next(2000, 3000);
                     await Task.Delay(interDelay);
                 }
 
