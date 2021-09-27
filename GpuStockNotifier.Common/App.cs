@@ -39,18 +39,8 @@ namespace GpuStockNotifier.Common
 
                 var apiResponse = JsonSerializer.Deserialize<ApiResponse>(body);
 
-                string gpuStatus;
-                List<Retailer> retailers;
-                if (gpu.Id != "3070Ti")
-                {
-                    retailers = apiResponse.SearchedProducts.FeaturedProduct.Retailers;
-                    gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
-                }
-                else
-                {
-                    retailers = apiResponse.SearchedProducts.ProductDetails[0].Retailers;
-                    gpuStatus = apiResponse.SearchedProducts.ProductDetails[0].PrdStatus;
-                }
+                var retailers = apiResponse.SearchedProducts.FeaturedProduct.Retailers;
+                var gpuStatus = apiResponse.SearchedProducts.FeaturedProduct.PrdStatus;
 
                 gpu.LdlcUrl = (retailers.Count != 0) ? retailers[0].PurchaseLink : ldlcHomeUrl;
                 if (lastLdlcUrl == string.Empty) lastLdlcUrl = gpu.LdlcUrl;
@@ -96,7 +86,7 @@ namespace GpuStockNotifier.Common
                 if (gpuStatus == outOfStockMessage)
                 {
                     var testNotifier = new BasicNotifier();
-                    // notifier.Notify(gpu);
+                    testNotifier.Notify(gpu);
                 }
             }
             else
